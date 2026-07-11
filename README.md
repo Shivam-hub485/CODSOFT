@@ -1,20 +1,17 @@
-# Titanic Survival Prediction (CodSoft Internship - Task 1)
+# Iris Flower Classification (CodSoft Internship - Task 3)
 
-This repository contains the implementation of **Task 1: Titanic Survival Prediction** as part of the CodSoft Data Science Internship.
+This repository contains the implementation of **Task 3: Iris Flower Classification** as part of the CodSoft Data Science Internship.
 
 ## Project Goal
-The objective of this project is to build a machine learning model that predicts whether a passenger on the Titanic survived or not based on historical data. 
+The objective of this project is to build a machine learning model that can learn from sepal and petal measurements of iris flowers and accurately classify them into their respective species (`setosa`, `versicolor`, or `virginica`).
 
 ## Dataset Description
-The Titanic dataset contains individual passenger details:
-- `Survived`: 0 = No, 1 = Yes (Target variable)
-- `Pclass`: Ticket class (1 = 1st, 2 = 2nd, 3 = 3rd)
-- `Sex`: Gender of passenger
-- `Age`: Age in years
-- `SibSp`: Number of siblings / spouses aboard the Titanic
-- `Parch`: Number of parents / children aboard the Titanic
-- `Fare`: Passenger fare
-- `Embarked`: Port of embarkation (C = Cherbourg; Q = Queenstown; S = Southampton)
+The Iris dataset contains sepal and petal measurements for 150 iris flowers:
+- `sepal_length`: Sepal length in cm
+- `sepal_width`: Sepal width in cm
+- `petal_length`: Petal length in cm
+- `petal_width`: Petal width in cm
+- `species`: Species of the iris flower (`setosa`, `versicolor`, `virginica`)
 
 ---
 
@@ -22,40 +19,37 @@ The Titanic dataset contains individual passenger details:
 ```text
 CODSOFT/
 ├── data/
-│   └── titanic.csv                       # Titanic dataset (CSV)
+│   └── iris.csv                          # Iris dataset (CSV)
 ├── .gitignore                            # Files ignored by Git (venv, cache)
 ├── requirements.txt                      # Project dependencies
 ├── README.md                             # Documentation (This file)
-└── titanic_survival_prediction.ipynb     # Jupyter Notebook containing full ML pipeline
+└── iris_flower_classification.ipynb      # Jupyter Notebook containing full ML pipeline
 ```
 
 ---
 
 ## Key Steps Implemented
 
-### 1. Data Cleaning & Imputation
-- Handled missing values: Imputed `Age` with the median and `Embarked` with the mode.
-- Dropped features with high cardinality or excessive missing values (`Cabin`, `PassengerId`, `Name`, `Ticket`).
-- Encoded categorical features (`Sex`, `Embarked`) using Label Encoding.
+### 1. Data Loading & Inspection
+- Verified that the dataset contains 150 observations (50 for each of the three species) and has no missing or null values.
 
 ### 2. Exploratory Data Analysis (EDA)
-- Visualized overall survival rate.
-- Analyzed survival rates relative to gender (revealing that females had a survival rate of ~74.20% compared to ~18.89% for males).
-- Explored class-based survival rates (showing 1st class passengers had higher survival rates than 3rd class passengers).
-- Visualized age distribution against survival status.
+- Plotted class distributions showing balanced species sizes.
+- Visualized pairwise relationships using pairplots.
+- Generated violin plots for sepal and petal length/width distributions, which highlighted that `setosa` is linearly separable from the other two species.
 
-### 3. Model Training & Comparison
-- Split the dataset into 80% training and 20% testing sets.
-- Standardized numerical features using `StandardScaler`.
-- Trained and evaluated two classification algorithms:
-  - **Logistic Regression** (Linear Baseline)
-  - **Random Forest Classifier** (Tree-based ensemble)
+### 3. Data Preprocessing
+- Encoded target species labels using `LabelEncoder`.
+- Partitioned features and target into an 80% training set and a 20% testing set, using stratified splitting to ensure class balance.
+- Standardized the feature matrices using `StandardScaler`.
 
-### 4. Evaluation Results
-- **Logistic Regression Test Accuracy**: ~81.01%
-- **Random Forest Test Accuracy**: ~82.12%
-- Built confusion matrices and classification reports for both models.
-- **Feature Importance**: Analyzed Random Forest feature importances, showing that `Sex` (Gender) and `Fare`/`Pclass` were the most critical features in predicting survival.
+### 4. Model Training & Evaluation
+- Trained two classifiers:
+  - **Logistic Regression** (baseline linear classifier)
+  - **K-Nearest Neighbors (KNN)** (distance-based non-linear classifier)
+- Evaluated models using classification reports (Accuracy, Precision, Recall, F1-Score) and confusion matrices.
+- Both models achieved **100% test accuracy** on the 20% split (30 samples).
+- Logistic Regression is recommended for deployment due to its simplicity, speed, and interpretability.
 
 ---
 
@@ -69,7 +63,7 @@ CODSOFT/
 
 2. **Create and activate a virtual environment**:
    ```bash
-   python -m venv .venv
+   py -m venv .venv
    # Windows:
    .venv\Scripts\activate
    # macOS/Linux:
@@ -85,4 +79,4 @@ CODSOFT/
    ```bash
    jupyter notebook
    ```
-   Open `titanic_survival_prediction.ipynb` in the browser to view the code, plots, and models.
+   Open `iris_flower_classification.ipynb` in the browser to view the code, plots, and models.
